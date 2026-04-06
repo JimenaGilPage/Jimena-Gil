@@ -1,0 +1,790 @@
+/**
+ * PORTAFOLIO VISUAL - JIMENA GIL
+ * Hoja de estilos principal
+ */
+
+/* =========================================
+   1. VARIABLES GLOBALES Y RESETEO
+   ========================================= */
+:root {
+    --bg-color: #0a0a0a;
+    --surface-color: #141414;
+    --text-color: #f0f0f0;
+    --text-muted: #999999;
+    --accent-color: #ff2a4b;
+    
+    /* Variables de tipografía */
+    --font-title: 'Bebas Neue', sans-serif;
+    --font-body: 'Montserrat', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-body); 
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    position: relative; 
+}
+
+/* =========================================
+   2. SCROLLBAR PERSONALIZADO
+   ========================================= */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+    border-left: 1px solid #222;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
+}
+
+
+/* =========================================
+   3. EFECTOS GLOBALES Y ATMÓSFERA
+   ========================================= */
+/* --- Splash Screen (Pantalla de carga) --- */
+.splash-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: var(--bg-color);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.splash-logo {
+    font-family: var(--font-title);
+    font-size: 4rem;
+    color: var(--text-color);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    animation: focusPulse 1.5s infinite alternate ease-in-out;
+}
+
+.splash-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+@keyframes focusPulse {
+    0% { opacity: 0.4; filter: blur(3px); transform: scale(0.98); }
+    100% { opacity: 1; filter: blur(0px); transform: scale(1); }
+}
+
+/* --- Viñeta Fotográfica --- */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.85) 120%);
+    z-index: 9998;
+    pointer-events: none;
+}
+
+/* --- Grano y Polvo Analógico --- */
+.grain-overlay {
+    position: fixed;
+    top: -100%; left: -100%;
+    width: 300%; height: 300%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03; 
+    z-index: 9999; 
+    pointer-events: none; 
+    animation: noise 0.3s steps(10) infinite;
+}
+
+@keyframes noise {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-5%, -10%); }
+    20% { transform: translate(-15%, 5%); }
+    30% { transform: translate(7%, -25%); }
+    40% { transform: translate(-5%, 25%); }
+    50% { transform: translate(-15%, 10%); }
+    60% { transform: translate(15%, 0%); }
+    70% { transform: translate(0%, 15%); }
+    80% { transform: translate(3%, 35%); }
+    90% { transform: translate(-10%, 10%); }
+}
+
+
+/* =========================================
+   4. NAVEGACIÓN Y MENÚ
+   ========================================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 5%;
+    background-color: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid #222;
+    transition: all 0.4s ease;
+}
+
+.navbar.scrolled {
+    padding: 0.8rem 5%;
+    background-color: rgba(10, 10, 10, 0.8);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.logo {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    letter-spacing: 2px;
+    color: #fff;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    font-family: var(--font-title);
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+}
+
+.hamburger {
+    display: none;
+    z-index: 101;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    transition: all 0.3s ease-in-out;
+    background-color: var(--text-color);
+}
+
+
+/* =========================================
+   5. SECCIÓN HERO Y BOTONES
+   ========================================= */
+.hero {
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #000; /* Fondo negro por si el video tarda en cargar */
+    color: #ffffff;
+    padding: 0 20px;
+    border-bottom: 1px solid #222;
+    position: relative; /* Crucial para que el video no se salga de aquí */
+    overflow: hidden; /* Corta los bordes del video que sobren */
+}
+
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Hace que el video llene el espacio sin deformarse */
+    z-index: 1; /* Lo manda al fondo */
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Un degradado oscuro sutil para que el texto sea legible */
+    background: linear-gradient(rgba(10,10,10,0.5), rgba(10,10,10,0.8));
+    z-index: 2; /* Lo pone encima del video */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3; /* Empuja el texto hasta el frente */
+}
+
+.hero h1 {
+    font-family: var(--font-title);
+    font-size: 5.5rem; 
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+    position: relative;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin: 0 auto 2.5rem auto;
+    max-width: 600px;
+}
+
+.btn {
+    font-family: var(--font-title);
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: transparent;
+    color: #fff;
+    text-decoration: none;
+    border: 2px solid var(--accent-color);
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.btn:hover {
+    background-color: var(--accent-color);
+    color: #000;
+    box-shadow: 0 0 15px rgba(255, 42, 75, 0.4);
+}
+
+/* =========================================
+   6. ESTILOS GENERALES DE SECCIONES
+   ========================================= */
+section {
+    padding: 6rem 5%;
+    position: relative;
+    z-index: 10;
+}
+
+section h2 {
+    font-family: var(--font-title);
+    text-align: center;
+    font-size: 3.5rem;
+    margin-bottom: 3rem;
+    letter-spacing: 3px;
+}
+
+/* Filtros de la Galería */
+.gallery-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+}
+
+.filter-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 5px;
+    font-family: var(--font-title);
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    color: #fff;
+    border-bottom: 2px solid var(--accent-color);
+    text-shadow: 0 0 10px rgba(255, 42, 75, 0.4);
+}
+
+/* Clase dinámica para ocultar imágenes al usar el filtro */
+.gallery-img.hide {
+    display: none;
+}
+
+/* =========================================
+   7. GALERÍA Y LIGHTBOX
+   ========================================= */
+.gallery-grid {
+    column-count: 3; /* Crea 3 columnas exactas en PC */
+    column-gap: 1.5rem; /* Separación horizontal entre fotos */
+}
+
+/* Ajuste responsivo para tablets y celulares */
+@media (max-width: 900px) {
+    .gallery-grid {
+        column-count: 2;
+    }
+}
+@media (max-width: 600px) {
+    .gallery-grid {
+        column-count: 1;
+    }
+}
+
+/* Contenedor para imagen + overlay (usado en Eventos) */
+.gallery-item {
+    position: relative;
+    width: 100%;
+    display: block;
+    height: auto; /* Permite que el contenedor se adapte a la foto real */
+    margin-bottom: 1.5rem; /* Separación vertical entre fotos */
+    break-inside: avoid; /* Magia: Evita que una foto se parta entre dos columnas */
+    overflow: hidden; 
+    cursor: pointer;
+}
+
+/* Imagen base */
+.gallery-img {
+    width: 100%;
+    height: auto; /* Respeta las proporciones reales verticales y horizontales */
+    display: block; /* Quita espacios fantasma debajo de la foto */
+    margin-bottom: 1rem; /* Separación vertical para fotos sueltas */
+    break-inside: avoid; /* Magia: Evita cortes */
+    transition: transform 0.4s ease;
+}
+
+/* Evitar margen doble si la foto está dentro de un contenedor de Eventos */
+.gallery-item .gallery-img {
+    margin-bottom: 0;
+}
+
+/* Pequeño zoom al pasar el ratón */
+.gallery-item:hover .gallery-img,
+.gallery-img:hover {
+    transform: scale(1.02);
+}
+
+/* Oculta las fotos cuando usamos los filtros */
+.gallery-img.hide,
+.gallery-item.hide {
+    display: none;
+}
+
+/* Imagen base y portadas de sesión */
+.gallery-img,
+.cover-img {
+    width: 100%;
+    height: auto; 
+    display: block; 
+    margin-bottom: 1.5rem; 
+    break-inside: avoid; 
+    transition: transform 0.4s ease;
+}
+
+/* Evitar margen doble si la foto está dentro de un contenedor */
+.gallery-item .gallery-img,
+.gallery-item .cover-img {
+    margin-bottom: 0;
+}
+
+/* Pequeño zoom al pasar el ratón */
+.gallery-item:hover .gallery-img,
+.gallery-img:hover,
+.gallery-item:hover .cover-img,
+.cover-img:hover {
+    transform: scale(1.02);
+}
+
+/* Oculta las fotos cuando usamos los filtros */
+.gallery-img.hide,
+.gallery-item.hide,
+.cover-img.hide {
+    display: none;
+}
+
+/* Capa oscura y semi-transparente del efecto de título */
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; 
+    transition: opacity 0.4s ease;
+    pointer-events: none; 
+}
+
+/* Muestra el overlay al pasar el ratón sobre el contenedor */
+.gallery-item:hover .image-overlay {
+    opacity: 1;
+}
+
+/* Texto dentro del overlay */
+.overlay-text {
+    color: #ffffff;
+    font-family: var(--font-title); 
+    font-size: 2.2rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 15px;
+    text-shadow: 0 0 10px rgba(0,0,0,0.5); 
+}
+
+/* Visor de fotos (Lightbox) */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.95);
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 90%;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px; right: 40px;
+    color: var(--text-muted);
+    font-size: 40px;
+    font-weight: 300;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: var(--accent-color);
+}
+
+/* Controles del Lightbox (Flechas) */
+.prev-btn, .next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 50px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: color 0.3s;
+    user-select: none;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.prev-btn:hover, .next-btn:hover {
+    color: var(--accent-color);
+}
+
+.prev-btn {
+    left: 20px;
+}
+
+.next-btn {
+    right: 20px;
+}
+
+/* Ajuste de flechas para celulares */
+@media (max-width: 600px) {
+    .prev-btn, .next-btn {
+        font-size: 35px;
+        padding: 10px;
+    }
+    .prev-btn { left: 5px; }
+    .next-btn { right: 5px; }
+}
+
+/* =========================================
+   8. SERVICIOS Y TARJETAS
+   ========================================= */
+.services-section {
+    background-color: var(--surface-color);
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
+}
+
+.services-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.service-card {
+    background: var(--bg-color);
+    padding: 3rem 2rem;
+    width: 320px;
+    text-align: left;
+    border: 1px solid #222;
+    transition: border-color 0.3s ease;
+}
+
+.service-card:hover {
+    border-color: var(--accent-color);
+}
+
+.service-card h3 {
+    font-family: var(--font-title);
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.service-card p {
+    color: var(--text-muted);
+}
+
+
+/* =========================================
+   9. FORMULARIO DE CONTACTO
+   ========================================= */
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--surface-color);
+    border: 1px solid #333;
+    color: #fff;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.contact-form input:focus, .contact-form textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.contact-form .btn {
+    width: 100%;
+}
+
+/* Mensaje de estado del formulario */
+#my-form-status {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-family: var(--font-body);
+    display: none; /* Oculto por defecto */
+}
+
+/* Colores para cuando sale bien o mal */
+.status-success {
+    color: #4CAF50; /* Un verde elegante */
+}
+
+.status-error {
+    color: var(--accent-color); /* El rojo/rosa de tu paleta */
+}
+
+/* =========================================
+   10. PIE DE PÁGINA (FOOTER)
+   ========================================= */
+.footer {
+    background-color: #050505; 
+    padding: 4rem 5%;
+    text-align: center;
+    border-top: 1px solid #222;
+    position: relative;
+    z-index: 10;
+}
+
+.footer-logo {
+    font-family: var(--font-title);
+    font-size: 2.5rem;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.social-links a {
+    font-family: var(--font-title);
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--accent-color);
+    transform: translateY(-3px);
+    text-shadow: 0 0 10px rgba(255, 42, 75, 0.3);
+}
+
+.copyright {
+    color: #444;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+
+/* =========================================
+   11. DISEÑO RESPONSIVO (MÓVILES)
+   ========================================= */
+@media (max-width: 768px) {
+    
+    /* ¡MAGIA ANTI-LAG! Apagamos el grano en celulares para liberar la RAM */
+    .grain-overlay {
+        display: none !important;
+        animation: none !important;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        flex-direction: column;
+        background-color: rgba(10, 10, 10, 0.98);
+        width: 100%;
+        height: 100vh;
+        text-align: center;
+        transition: 0.4s ease-in-out;
+        justify-content: center;
+        gap: 3rem;
+        z-index: 100;
+    }
+
+    .nav-links.active {
+        left: 0;
+    }
+
+    .nav-links a {
+        font-size: 2rem;
+    }
+
+    /* Animación de la 'X' en la hamburguesa */
+    .hamburger.toggle .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .hamburger.toggle .bar:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger.toggle .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* Ajustes visuales para móvil */
+    .hero h1 {
+        font-size: 3.5rem;
+    }
+}
+/* =========================================
+   12. INFORMACIÓN DE PROYECTO (SESIONES)
+   ========================================= */
+.session-hero {
+    height: 20vh; /* Reducido de 35vh a 20vh */
+    min-height: 150px;
+    background-color: var(--bg-color);
+    border-bottom: none;
+}
+
+.project-info {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 5% 4rem 5%;
+    text-align: center;
+}
+
+.project-description p {
+    font-size: 1.15rem;
+    color: #e0e0e0;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    font-weight: 300;
+}
+
+.project-credits {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4rem;
+    border-top: 1px solid #222;
+    padding-top: 2.5rem;
+}
+
+.credit-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.credit-role {
+    font-family: var(--font-title);
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.credit-name {
+    color: #fff;
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+/* Ajuste para celulares */
+@media (max-width: 600px) {
+    .project-credits {
+        flex-direction: column;
+        gap: 2rem;
+    }
+}
+
+/* Títulos de las sesiones más elegantes y delgados */
+.session-hero h1 {
+    font-family: var(--font-body); /* Cambiamos a la tipografía delgada (Montserrat) */
+    font-weight: 300; /* Le damos el grosor más fino posible */
+    font-size: 2.5rem; /* Tamaño mucho más sutil (antes era 5.5rem) */
+    letter-spacing: 4px; /* Un poco de espacio entre letras para el toque de revista */
+    line-height: 1.3;
+    text-transform: uppercase;
+    padding: 0 20px;
+}
+
+/* Ajuste automático para que en celulares no se salga de la pantalla */
+@media (max-width: 600px) {
+    .session-hero h1 {
+        font-size: 1.8rem;
+    }
+}
